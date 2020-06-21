@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    command: python /code/manage.py runserver 0.0.0.0:8000
+    environment:
+      - ENVIRONMENT=development
+        # Double dollar $$ used to represent $ 
+      - SECRET_KEY=/run/secrets/django_secret_key
+      - DEBUG=1
+    secrets:
+      - django_secret_key
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    networks:
+      testing_net:
+        ipv4_address: 172.21.0.3
+
+  db:
+    image: postgres:11
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+    secrets:
+      - postgres_password
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/docker_volumes/postgres_bookstore:/var/lib/postgresql/data/
+    networks:
+      testing_net:
+        ipv4_address: 172.21.0.2
+
+networks:
+  testing_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.21.0.0/16
+
+secrets:
+  postgres_password:
+    file:
+      /secrets/postgres_password
+  django_secret_key:
+    file:
+      /secrets/djangobooks_key
