@@ -19,7 +19,7 @@ services:
       - db
     networks:
       testing_net:
-        ipv4_address: 172.21.0.3
+        ipv4_address: 172.25.0.3
 
   db:
     image: postgres:11
@@ -33,14 +33,14 @@ services:
       - ~/docker_volumes/postgres_bookstore:/var/lib/postgresql/data/
     networks:
       testing_net:
-        ipv4_address: 172.21.0.2
+        ipv4_address: 172.25.0.2
 
 networks:
   testing_net:
     ipam:
       driver: default
       config:
-        - subnet: 172.21.0.0/16
+        - subnet: 172.25.0.0/16
 
 secrets:
   postgres_password:
