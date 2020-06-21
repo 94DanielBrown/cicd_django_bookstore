@@ -28,7 +28,7 @@ services:
     secrets:
       - postgres_password
     ports:
-      - 5432:5432
+      - 5434:5434
     volumes:
       - ~/docker_volumes/postgres_bookstore:/var/lib/postgresql/data/
     networks:
