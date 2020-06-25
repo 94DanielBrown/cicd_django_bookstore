@@ -9,7 +9,8 @@ services:
       - ENVIRONMENT=development
         # Double dollar $$ used to represent $ 
       - SECRET_KEY=/run/secrets/django_secret_key
-      - DEBUG=1
+        # Set to debugging for local testing unless environment variable states otherwise
+      - DEBUG=${DEBUG:-1}
     secrets:
       - django_secret_key
     volumes:
@@ -21,6 +22,8 @@ services:
     networks:
       testing_net:
         ipv4_address: 172.25.0.3
+    args:
+      - ENV=${ENV}
 
   db:
     image: postgres:11

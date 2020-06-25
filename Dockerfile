@@ -1,3 +1,6 @@
+# Variable ENV used to decide if test packages need to be installed for local testing
+ARG ENV
+
 # Pull base image
 FROM python:3.7
 
@@ -21,7 +24,8 @@ RUN chmod 755 /code
 COPY . /code/
 
 # Install dependancies
-RUN pip install pipenv && pipenv install --system
+RUN if [ "$ENV" = "production" ]; then pip install pipenv && pipenv install --system; \
+else pip install pipenv && pipenv install --dev --system
 
 # Change to admin user
 USER admin
