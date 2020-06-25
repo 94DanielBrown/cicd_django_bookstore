@@ -3,6 +3,7 @@ version: '3.7'
 services:
   web:
     build: .
+    image: cicd_test
     command: python /code/manage.py runserver 0.0.0.0:8000
     environment:
       - ENVIRONMENT=development
