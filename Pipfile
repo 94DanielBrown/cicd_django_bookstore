@@ -4,10 +4,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-django-pytest = "*"
 django-debug-toolbar = "*"
 pytest-env = "*"
 pytest-django = "*"
+django-pytest = "*"
 pytest-docker-db = "*"
 
 [packages]
