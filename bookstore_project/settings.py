@@ -6,7 +6,6 @@ ENVIRONMENT = os.environ.get('ENVIRONMENT', default='production')
 if ENVIRONMENT == 'production':
     SECURE_BROWSER_XSS_FILTER = True
     X_FRAME_OPTIONS = 'DENY'
-    SECURE_SSL_REDIRECT = True
     SECURE_HSTS_SECONDS = True
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
