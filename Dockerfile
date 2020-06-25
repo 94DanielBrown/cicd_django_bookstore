@@ -25,7 +25,7 @@ COPY . /code/
 
 # Install dependancies
 RUN if [ "$ENV" = "production" ]; then pip install pipenv && pipenv install --system; \
-else pip install pipenv && pipenv install --dev --system
+else pip install pipenv && pipenv install --dev --system ; fi
 
 # Change to admin user
 USER admin
