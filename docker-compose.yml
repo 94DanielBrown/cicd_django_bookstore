@@ -2,7 +2,10 @@ version: '3.7'
 
 services:
   web:
-    build: .
+    build: 
+      context: .
+      args:
+       - ENV=${ENV}
     image: cicd_test
     command: python /code/manage.py runserver 0.0.0.0:8000
     environment:
@@ -22,8 +25,6 @@ services:
     networks:
       testing_net:
         ipv4_address: 172.25.0.3
-    args:
-      - ENV=${ENV}
 
   db:
     image: postgres:11
