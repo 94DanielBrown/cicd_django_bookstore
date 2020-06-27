@@ -9,7 +9,6 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 
-
 # Create non-root user to run app
 RUN groupadd admin -g 1000
 RUN useradd -ms /bin/bash admin -u 1000 -g 1000

@@ -7,15 +7,21 @@ services:
       args:
        - ENV=${ENV}
     image: cicd_test
-    command: python /code/manage.py runserver 0.0.0.0:8000
+    command: >
+      bash -c "sleep 20 
+      && python manage.py makemigrations
+      && python manage.py migrate
+      && python manage.py runserver 0.0.0.0:8000"
     environment:
       - ENVIRONMENT=development
-        # Double dollar $$ used to represent $ 
+        # Double dollar $$ used to represent $ if present 
       - SECRET_KEY=/run/secrets/django_secret_key
         # Set to debugging for local testing unless environment variable states otherwise
       - DEBUG=${DEBUG:-1}
+      - POSTGRES_PASSWORD=/run/secrets/postgres_password
     secrets:
       - django_secret_key
+      - postgres_password
     volumes:
       - .:/code
     ports:
@@ -33,9 +39,10 @@ services:
     secrets:
       - postgres_password
     ports:
-      - 5434:5434
-    volumes:
-      - ~/docker_volumes/postgres_bookstore:/var/lib/postgresql/data/
+      - 5432:5432
+        #    Add volume for local dev/testing
+#    volumes:
+#      - ~/docker_volumes/postgres_bookstore:/var/lib/postgresql/data/
     networks:
       testing_net:
         ipv4_address: 172.25.0.2
@@ -50,7 +57,7 @@ networks:
 secrets:
   postgres_password:
     file:
-      /secrets/postgres_password
+      ./secrets/postgres_password
   django_secret_key:
     file:
-      /secrets/djangobooks_key
+      ./secrets/djangobooks_key
