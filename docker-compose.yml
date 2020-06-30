@@ -9,9 +9,7 @@ services:
     image: cicd_test
     command: >
       bash -c "sleep 20 
-      && python manage.py makemigrations
-      && python manage.py migrate
-      && python manage.py runserver 0.0.0.0:8000"
+      && python manage.py runserver 0.0.0.0:8000 --insecure"
     environment:
       - ENVIRONMENT=development
         # Double dollar $$ used to represent $ if present 
