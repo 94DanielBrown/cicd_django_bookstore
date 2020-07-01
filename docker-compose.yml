@@ -2,15 +2,26 @@ version: '3.7'
 
 services:
   web:
-    build: .
-    command: python /code/manage.py runserver 0.0.0.0:8000
+    build: 
+      context: .
+      args:
+       - ENV=${ENV}
+    image: cicd_test
+    command: >
+      bash -c "sleep 20 
+      && python manage.py makemigrations
+      && python manage.py migrate
+      && python manage.py runserver 0.0.0.0:8000 --insecure"
     environment:
       - ENVIRONMENT=development
-        # Double dollar $$ used to represent $ 
+        # Double dollar $$ used to represent $ if present 
       - SECRET_KEY=/run/secrets/django_secret_key
-      - DEBUG=1
+        # Set to debugging for local testing unless environment variable states otherwise
+      - DEBUG=${DEBUG:-1}
+      - POSTGRES_PASSWORD=/run/secrets/postgres_password
     secrets:
       - django_secret_key
+      - postgres_password
     volumes:
       - .:/code
     ports:
@@ -19,7 +30,7 @@ services:
       - db
     networks:
       testing_net:
-        ipv4_address: 172.21.0.3
+        ipv4_address: 172.25.0.3
 
   db:
     image: postgres:11
@@ -29,23 +40,24 @@ services:
       - postgres_password
     ports:
       - 5432:5432
-    volumes:
-      - ~/docker_volumes/postgres_bookstore:/var/lib/postgresql/data/
+# Map volumes here for local testing
+#    volumes:
+#      - ~/docker_volumes/postgres_bookstore:/var/lib/postgresql/data/
     networks:
       testing_net:
-        ipv4_address: 172.21.0.2
+        ipv4_address: 172.25.0.2
 
 networks:
   testing_net:
     ipam:
       driver: default
       config:
-        - subnet: 172.21.0.0/16
+        - subnet: 172.25.0.0/16
 
 secrets:
   postgres_password:
     file:
-      /secrets/postgres_password
+      ./secrets/postgres_password
   django_secret_key:
     file:
-      /secrets/djangobooks_key
+      ./secrets/djangobooks_key

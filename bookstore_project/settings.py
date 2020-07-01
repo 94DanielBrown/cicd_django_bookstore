@@ -6,7 +6,6 @@ ENVIRONMENT = os.environ.get('ENVIRONMENT', default='production')
 if ENVIRONMENT == 'production':
     SECURE_BROWSER_XSS_FILTER = True
     X_FRAME_OPTIONS = 'DENY'
-    SECURE_SSL_REDIRECT = True
     SECURE_HSTS_SECONDS = True
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
@@ -18,12 +17,17 @@ if ENVIRONMENT == 'production':
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# More of a salt used for cryptographic signing but can't be rotated
+# or sessions will be invaliatdated and cookie storage etc
 SECRET_KEY = os.environ.get('SECRET_KEY')
+
+# Postgres password to connect to database
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get('DEBUG', default=0))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -101,9 +105,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': 'testpassword',
         'HOST': '172.25.0.2',
-        'PORT': 5434
+        'PORT': 5432
     }
 }
 
