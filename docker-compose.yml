@@ -40,9 +40,7 @@ services:
       - postgres_password
     ports:
       - 5432:5432
-        #volumes:
-      #     - ./example_data
-        #    Add volume for local dev/testing
+# Map volumes here for local testing
 #    volumes:
 #      - ~/docker_volumes/postgres_bookstore:/var/lib/postgresql/data/
     networks:
