@@ -4,19 +4,18 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+django-debug-toolbar = "*"
+pytest-env = "*"
+pytest-django = "*"
+django-pytest = "*"
+pytest-docker-db = "*"
 
 [packages]
 django = "*"
 psycopg2-binary = "==2.8.4"
-django-pytest = "*"
-pytest-django = "*"
 django-crispy-forms = "*"
 django-allauth = "*"
-pytest-docker-db = "*"
-pytest-env = "*"
 pillow = "*"
-stripe = "*"
-django-debug-toolbar = "*"
 
 [requires]
 python_version = "3.7"
